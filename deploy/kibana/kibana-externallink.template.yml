@@ -1,0 +1,41 @@
+#
+# =======================================
+# AUTHOR        : Claudio Prato @ Team EA
+# CREATE DATE   : 2022/06/09
+# PURPOSE       : Kibana ConsoleExternalLogLink for structured fields view
+# SPECIAL NOTES :
+# =======================================
+#
+apiVersion: template.openshift.io/v1
+kind: Template
+labels:
+  template: dedalus-kibana-template
+metadata:
+  annotations:
+    description: |-
+      Kibana ConsoleExternalLogLink for structured fields view.
+      For more information about using this template, including OpenShift considerations, see https://github.com/dedalus-enterprise-architect/efk-resources/blob/main/README.md.
+    iconClass: icon-d4center
+    tags: dedalus-kibana,dedalus
+  name: dedalus-kibana
+objects:
+# :::
+# ::: Kibana: ConsoleExternalLogLink
+# :::
+- apiVersion: console.openshift.io/v1
+  kind: ConsoleExternalLogLink
+  metadata:
+    name: kibanajsonview
+    labels:
+      app: es-logging-dedalus
+  spec:
+    hrefTemplate: https://${KIBANA_ROUTE}/app/kibana#/discover?_g=(time:(from:now-24h,mode:relative,to:now))&_a=(columns:!(kubernetes.container_name,structured.application,structured.level,structured.message),filters:!(),query:(query_string:(analyze_wildcard:!t,query:'kubernetes.pod_name:"${resourceName}"  AND
+      kubernetes.namespace_name:"${resourceNamespace}" AND 
+      kubernetes.container_name.raw:"${containerName}"')),sort:!('@timestamp',desc))
+    text: Show in Kibana Json Logs
+parameters:
+- name: KIBANA_ROUTE
+  displayName: Kibana public route
+  description: "Fill with the output of the following command: oc get route kibana -n openshift-logging -o jsonpath='{.spec.host}'"
+  required: true
+  value: 

@@ -1,0 +1,38 @@
+#
+# =======================================
+# AUTHOR        : Claudio Prato @ Team EA
+# CREATE DATE   : 2022/06/14
+# PURPOSE       : Setup the RedHat Cluster Forwarder
+# SPECIAL NOTES : Managing the Audit, Infrastructure and Application data stream
+# =======================================
+#
+# :::
+# ::: Cluster Logging: ClusterLogForwarder Instance
+# :::
+apiVersion: logging.openshift.io/v1
+kind: ClusterLogForwarder
+metadata:
+  name: instance
+  namespace: openshift-logging
+  # annotations:
+  #   template.alpha.openshift.io/wait-for-ready: "true"
+  labels:
+    app: cl-logging-dedalus
+spec:
+  outputDefaults:
+    elasticsearch:
+      structuredTypeKey: kubernetes.namespace_name
+      structuredTypeName: nologformat
+  pipelines:
+    - inputRefs:
+        - application
+      name: application-json
+      outputRefs:
+        - default
+      parse: json
+    - inputRefs:
+        - infrastructure
+        - audit
+      name: default-logging
+      outputRefs:
+        - default

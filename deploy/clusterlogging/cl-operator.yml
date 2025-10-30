@@ -1,0 +1,70 @@
+#
+# =======================================
+# AUTHOR        : Claudio Prato @ Team EA
+#               : Davide Celano @ Team EA
+# CREATE DATE   : 2025/01/31
+# PURPOSE       : Setup the Cluster Logging Operator
+# SPECIAL NOTES : This is a rebuilt version of the original Cluster Logging Operator
+# =======================================
+#
+# :::
+# ::: Create the Namespace: openshift-logging
+# :::
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-logging
+  annotations:
+    openshift.io/node-selector: ""
+  labels:
+    openshift.io/cluster-monitoring: "true"
+---
+# :::
+# ::: Cluster Logging: OperatorGroup
+# :::
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: cluster-logging
+  namespace: openshift-logging
+  labels:
+    app: cl-logging-dedalus
+spec:
+  targetNamespaces:
+  - openshift-logging
+---
+# :::
+# ::: Cluster Logging: Operator Subscription
+# :::
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  annotations:
+    template.alpha.openshift.io/wait-for-ready: "true"
+  name: cluster-logging
+  # For AllNamespaces install mode usage, specify the 'openshift-operators' namespace.
+  # Otherwise, specify the relevant single namespace for SingleNamespace install mode usage.
+  # look for installModes by command: 'oc get packagemanifests cluster-logging -o yaml'
+  namespace: openshift-logging
+  labels:
+    operators.coreos.com/cluster-logging.openshift-logging: ''
+    app: cl-logging-dedalus
+spec:
+  # Name of the channel to subscribe to.
+  # look for the channel version available by command: 'oc get packagemanifests cluster-logging -o yaml'
+  channel: 'dedalus'
+  # Set the approval strategy to Manual in case your specified version is superseded by a later version in the catalog.
+  # This plan prevents an automatic upgrade to a later version and requires manual approval before the starting CSV can complete the installation.
+  installPlanApproval: Automatic
+  # Name of the Operator to subscribe to
+  name: cluster-logging
+  # Name of the catalog source that provides the Operator.
+  # you can choose among 'redhat-operators','community-operators' or the custom one: 'dedalus-operators'
+  source: dedalus-operators
+  # Namespace of the catalog source. Use openshift-marketplace for the default OperatorHub catalog sources.
+  sourceNamespace: openshift-marketplace
+  # Set the Dedalus version of the Operator CSV
+  startingCSV: clusterlogging.v5.9.0
+  # Set the RedHat specific version of the Operator CSV
+  # startingCSV: cluster-logging.v5.9.1
+
