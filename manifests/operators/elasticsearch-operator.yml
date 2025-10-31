@@ -17,9 +17,8 @@ metadata:
     app: dedalus-logging
     component: elasticsearch-operator
 spec:
-  channel: stable
+  channel: dedalus
   installPlanApproval: Automatic
   name: elasticsearch-operator
   source: dedalus-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: elasticsearch-operator.v5.8.6

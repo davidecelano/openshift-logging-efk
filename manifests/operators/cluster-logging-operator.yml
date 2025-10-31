@@ -28,9 +28,8 @@ metadata:
     app: dedalus-logging
     component: cluster-logging-operator
 spec:
-  channel: stable
+  channel: dedalus
   installPlanApproval: Automatic
   name: cluster-logging
   source: dedalus-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: cluster-logging.v5.9.1
