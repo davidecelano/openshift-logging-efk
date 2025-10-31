@@ -4,11 +4,10 @@ This project collects some procedures on how to set up a custom EFK instance bas
 
 * __Dedalus__ OpenShift Cluster Logging Operator - version 5.9.x
 * __RedHat__ ElasticSearch Operator - version 5.8.x
-* _OpenShift_ / _OKD_ version: 4.14, 4.15, 4.16 (not tested yet: 4.17, 4.18)
+* OpenShift/OKD version: 4.14-4.18
 
 References:
 
-* <https://github.com/dedalus-enterprise-architect/openshift-logging-efk/blob/feature/v5.9.0-dedalus/README.md>
 * <https://github.com/openshift/elasticsearch-operator>
 
 ## OpenShift Cluster Logging: Overview
@@ -22,7 +21,6 @@ This project focuses on the following topics:
 
 Explore the files used by this project:
 
-* `deploy/catalogsource/global-catalogsource.yaml`: Dedalus __CatalogSource__ definition
 * `deploy/clusterlogging/cl-forwarder.yml`: __cluster forwarder instance__ definition
 * `deploy/clusterlogging/cl-instance.template.yml`: __cluster logging instance__ definition for a single pod deployment
 * `deploy/clusterlogging/cl-instance-ha.template.yml`: __cluster logging instance__ definition for a high-availability deployment; _tolerations_ directives have been implemented for Infra node roles, uncomment them when needed
@@ -35,15 +33,9 @@ Explore the files used by this project:
 
 * The OpenShift client utility: `oc`
 * Cluster admin role rights
-* __Dedalus Operators__ catalog available on the cluster. No pull secret is required!
+* [Dedalus Operators catalog](https://github.com/dedalus-enterprise-architect/dedalus-operators-catalog) available on the cluster
 * Local clone of the Git project
 
-### Import the CatalogSource of Dedalus
-
-Before go on you need to configure the Dedalus _CatalogSource_ object as follow:
-
-```bash
-oc apply -f deploy/catalogsource/global-catalogsource.yaml
 ```
 
 ### RedHat ElasticSearch Operator: setup
