@@ -1,11 +1,3 @@
-#
-# =======================================
-# AUTHOR        : Claudio Prato @ Team EA
-# CREATE DATE   : 2022/06/09
-# PURPOSE       : Kibana ConsoleExternalLogLink for structured fields view
-# SPECIAL NOTES :
-# =======================================
-#
 apiVersion: template.openshift.io/v1
 kind: Template
 labels:
@@ -19,9 +11,6 @@ metadata:
     tags: dedalus-kibana,dedalus
   name: dedalus-kibana
 objects:
-# :::
-# ::: Kibana: ConsoleExternalLogLink
-# :::
 - apiVersion: console.openshift.io/v1
   kind: ConsoleExternalLogLink
   metadata:

@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
-#
-# =======================================
-# AUTHOR        : Claudio Prato @Team EA
-# CREATE DATE   : 2022/06/13
-# PURPOSE       : Setup the es index template
-# SPECIAL NOTES :
-# =======================================
-#
-# Tested on Kibana 6.8.1 management
-# 
-# set -euo pipefail
+set -euo pipefail
 
 es_pod=$(oc -n openshift-logging get pods -l component=elasticsearch --no-headers | head -1 | cut -d" " -f1)
 
