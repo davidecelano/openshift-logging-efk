@@ -25,9 +25,11 @@ Explore the files used by this project:
 
 * ```deploy/clusterlogging/cl-forwarder.yml``` : __cluster forwarder instance__ definition
 
-* ```deploy/clusterlogging/cl-instance.template.yml``` : __cluster logging instance__ definition for a single pod deployment
+* ```deploy/clusterlogging/cl-instance.template.yml``` : __cluster logging instance__ parameterized template
 
-* ```deploy/clusterlogging/cl-instance-ha.template.yml``` : __cluster logging instance__ definition for a high-availability deployment; _tolerations_ directives have been implemented for Infra node roles, uncomment them when needed
+* ```deploy/clusterlogging/es-single-node.example.params``` : parameters for single-node deployment
+
+* ```deploy/clusterlogging/es-ha.example.params``` : parameters for high-availability deployment
 
 * ```deploy/clusterlogging/cl-operator.yml``` : template to install the RedHat Openshift Cluster Logging Operator stack
 
@@ -62,7 +64,11 @@ Run the following command to install the RedHat ElasticSearch Operator:
 Get a list of the objects created:
 
 ```
-   oc get all,ConfigMap,Secret,Elasticsearch,OperatorGroup,Subscription -l app=es-logging-dedalus --no-headers -n openshift-operators-redhat |cut -d' ' -f1
+   # All Elasticsearch operator resources
+   oc get OperatorGroup,Subscription -l component=elasticsearch-operator -n openshift-logging
+   
+   # Or all operator resources
+   oc get OperatorGroup,Subscription -l app=dedalus-logging -n openshift-logging
 ```
 
 ### RedHat OpenShift Cluster Logging Operator: setup
@@ -79,9 +85,30 @@ Run the following command to install the RedHat OpenShift Cluster Logging Operat
 
 2. Instanciate the _ClusterLogging_ instance with inline parameters:
 
+**Single-node deployment:**
 ```
    oc process -f deploy/clusterlogging/cl-instance.template.yml \
+     --param-file=deploy/clusterlogging/es-single-node.example.params \
      -p STORAGECLASS=@type_here_the_custom_storageclass@ \
+     | oc -n openshift-logging apply -f -
+```
+
+**High-availability deployment:**
+```
+   oc process -f deploy/clusterlogging/cl-instance.template.yml \
+     --param-file=deploy/clusterlogging/es-ha.example.params \
+     -p STORAGECLASS=@type_here_the_custom_storageclass@ \
+     | oc -n openshift-logging apply -f -
+```
+
+**Custom deployment (override individual parameters):**
+```
+   oc process -f deploy/clusterlogging/cl-instance.template.yml \
+     --param-file=deploy/clusterlogging/es-single-node.example.params \
+     -p STORAGECLASS=my-storage-class \
+     -p ES_NODE_COUNT=2 \
+     -p ES_MEMORY=6Gi \
+     -p RETENTION_APP=14d \
      | oc -n openshift-logging apply -f -
 ```
 
@@ -96,8 +123,14 @@ Run the following command to install the RedHat OpenShift Cluster Logging Operat
 Get a list of the objects created:
 
 ```
-   oc get all,ConfigMap,Secret,OperatorGroup,Subscription,ClusterLogging,ClusterLogForwarder \
-     -l app=cl-logging-dedalus --no-headers -n openshift-logging |cut -d' ' -f1
+   # All logging instance resources
+   oc get ClusterLogging,ClusterLogForwarder -l app=dedalus-logging -n openshift-logging
+   
+   # Instance only
+   oc get ClusterLogging -l component=instance -n openshift-logging
+   
+   # Forwarder only
+   oc get ClusterLogForwarder -l component=forwarder -n openshift-logging
 ```
 
 ### Kibana: create the External Console Link
@@ -117,7 +150,7 @@ Run the following command to create the External Console Link for Kibana default
 Get a list of the objects created:
 
 ```
-   oc get ConsoleExternalLogLink -l app=es-logging-dedalus --no-headers -n openshift-logging |cut -d' ' -f1
+   oc get ConsoleExternalLogLink -l component=console-link -n openshift-logging
 ```
 
 ## ElasticSearch: create the index template

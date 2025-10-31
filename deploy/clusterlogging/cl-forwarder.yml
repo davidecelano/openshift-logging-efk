@@ -4,7 +4,8 @@ metadata:
   name: instance
   namespace: openshift-logging
   labels:
-    app: cl-logging-dedalus
+    app: dedalus-logging
+    component: forwarder
 spec:
   outputDefaults:
     elasticsearch:

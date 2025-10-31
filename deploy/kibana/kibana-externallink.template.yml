@@ -16,7 +16,8 @@ objects:
   metadata:
     name: kibanajsonview
     labels:
-      app: es-logging-dedalus
+      app: dedalus-logging
+      component: console-link
   spec:
     hrefTemplate: https://${KIBANA_ROUTE}/app/kibana#/discover?_g=(time:(from:now-24h,mode:relative,to:now))&_a=(columns:!(kubernetes.container_name,structured.application,structured.level,structured.message),filters:!(),query:(query_string:(analyze_wildcard:!t,query:'kubernetes.pod_name:"${resourceName}"  AND
       kubernetes.namespace_name:"${resourceNamespace}" AND 

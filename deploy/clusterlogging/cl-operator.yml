@@ -10,10 +10,11 @@ metadata:
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
-  name: cluster-logging
+  name: dedalus-operators
   namespace: openshift-logging
   labels:
-    app: cl-logging-dedalus
+    app: dedalus-logging
+    component: operator-group
 spec:
   targetNamespaces:
   - openshift-logging
@@ -21,17 +22,15 @@ spec:
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  annotations:
-    template.alpha.openshift.io/wait-for-ready: "true"
   name: cluster-logging
   namespace: openshift-logging
   labels:
-    operators.coreos.com/cluster-logging.openshift-logging: ''
-    app: cl-logging-dedalus
+    app: dedalus-logging
+    component: cluster-logging-operator
 spec:
   channel: stable
   installPlanApproval: Automatic
   name: cluster-logging
-  source: redhat-operators
+  source: dedalus-operators
   sourceNamespace: openshift-marketplace
   startingCSV: cluster-logging.v5.9.1

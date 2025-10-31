@@ -1,30 +1,25 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: openshift-operators-redhat 
-  annotations:
-    openshift.io/node-selector: ""
-  labels:
-    openshift.io/cluster-monitoring: "true" 
----
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
-  name: openshift-operators-redhat
-  namespace: openshift-operators-redhat
+  name: dedalus-operators
+  namespace: openshift-logging
+  labels:
+    app: dedalus-logging
+    component: operator-group
 spec: {}
 ---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: elasticsearch-operator
-  namespace: openshift-operators-redhat
+  namespace: openshift-logging
   labels:
-    app: es-logging-dedalus
+    app: dedalus-logging
+    component: elasticsearch-operator
 spec:
   channel: stable
   installPlanApproval: Automatic
   name: elasticsearch-operator
-  source: redhat-operators
+  source: dedalus-operators
   sourceNamespace: openshift-marketplace
   startingCSV: elasticsearch-operator.v5.8.6
