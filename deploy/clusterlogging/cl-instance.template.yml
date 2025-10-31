@@ -1,7 +1,7 @@
 #
 # =======================================
 # AUTHOR        : Claudio Prato @ Team EA
-# CREATE DATE   : 2025/01/31
+# CREATE DATE   : 2022/06/14
 # PURPOSE       : Setup the RedHat Cluster Logging Operator Instance object
 # SPECIAL NOTES :
 # =======================================
@@ -33,8 +33,9 @@ objects:
       app: cl-logging-dedalus
   spec:
     collection:
-      type: fluentd
-      fluentd: {}
+      logs:
+        type: fluentd
+        fluentd: {}
     logStore:
       elasticsearch:
         nodeCount: 1

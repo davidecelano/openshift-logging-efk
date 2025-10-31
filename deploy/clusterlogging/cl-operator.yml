@@ -2,9 +2,9 @@
 # =======================================
 # AUTHOR        : Claudio Prato @ Team EA
 #               : Davide Celano @ Team EA
-# CREATE DATE   : 2025/01/31
-# PURPOSE       : Setup the Cluster Logging Operator
-# SPECIAL NOTES : This is a rebuilt version of the original Cluster Logging Operator
+# CREATE DATE   : 2023/09/12
+# PURPOSE       : Setup the RedHat Cluster Logging Operator
+# SPECIAL NOTES :
 # =======================================
 #
 # :::
@@ -52,19 +52,17 @@ metadata:
 spec:
   # Name of the channel to subscribe to.
   # look for the channel version available by command: 'oc get packagemanifests cluster-logging -o yaml'
-  channel: 'dedalus'
+  channel: 'stable'
   # Set the approval strategy to Manual in case your specified version is superseded by a later version in the catalog.
   # This plan prevents an automatic upgrade to a later version and requires manual approval before the starting CSV can complete the installation.
   installPlanApproval: Automatic
   # Name of the Operator to subscribe to
   name: cluster-logging
   # Name of the catalog source that provides the Operator.
-  # you can choose among 'redhat-operators','community-operators' or the custom one: 'dedalus-operators'
-  source: dedalus-operators
+  # you can choose among 'redhat-operators' and 'community-operators'
+  # source: cluster-logging-catalog
+  source: redhat-operators
   # Namespace of the catalog source. Use openshift-marketplace for the default OperatorHub catalog sources.
   sourceNamespace: openshift-marketplace
-  # Set the Dedalus version of the Operator CSV
-  startingCSV: clusterlogging.v5.9.0
-  # Set the RedHat specific version of the Operator CSV
-  # startingCSV: cluster-logging.v5.9.1
-
+  # Set a specific version of an Operator CSV
+  startingCSV: cluster-logging.v5.9.1

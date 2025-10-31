@@ -2,7 +2,7 @@
 # =======================================
 # AUTHOR        : Claudio Prato @ Team EA
 #               : Davide Celano @ Team EA
-# CREATE DATE   : 2025/01/31
+# CREATE DATE   : 2023/09/12
 # PURPOSE       : Setup the Elasticsearch Operator
 # SPECIAL NOTES :
 # =======================================
@@ -60,11 +60,9 @@ spec:
   # Name of the Operator to subscribe to
   name: elasticsearch-operator
   # Name of the catalog source that provides the Operator.
-  # you can choose among 'redhat-operators','community-operators' or the custom one: 'dedalus-operators'
-  source: dedalus-operators
+  # you can choose among 'redhat-operators' and 'community-operators'
+  source: redhat-operators
   # Namespace of the catalog source. Use openshift-marketplace for the default OperatorHub catalog sources.
   sourceNamespace: openshift-marketplace
-  # Set the Dedalus version of the Operator CSV
-  startingCSV: elasticsearch-operator.v5.8.0
-  # Set the RedHat specific version of the Operator CSV
-  # startingCSV: elasticsearch-operator.v5.8.6
+  # Set a specific version of an Operator CSV
+  startingCSV: elasticsearch-operator.v5.8.6

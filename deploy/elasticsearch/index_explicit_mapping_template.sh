@@ -2,7 +2,7 @@
 #
 # =======================================
 # AUTHOR        : Claudio Prato @Team EA
-# CREATE DATE   : 2024/06/10
+# CREATE DATE   : 2022/06/13
 # PURPOSE       : Setup the es index template
 # SPECIAL NOTES :
 # =======================================
@@ -28,17 +28,11 @@ oc exec -n openshift-logging -c elasticsearch ${es_pod} -- es_util --query=_temp
         }
       }
     },
-    "version": 2,
+    "version": 1,
     "mappings": {
         "_doc": {
             "_source": { "enabled": true },
             "properties": {
-              "@version": {
-                "type": "integer"
-              },
-              "source_host": {
-                "type": "keyword"
-              },
               "structured.@timestamp": {
                   "type": "date",
                   "format": "strict_date_optional_time"
