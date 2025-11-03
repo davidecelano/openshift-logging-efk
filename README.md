@@ -9,7 +9,7 @@ Deploy Elasticsearch, Fluentd, and Kibana on OpenShift 4.14/4.15.
 - [Dedalus Operators catalog](https://github.com/dedalus-enterprise-architect/dedalus-operators-catalog) configured
 - Local clone of the repo
 
-## Contents
+## Repository Contents
 
 | File | Description |
 |------|-------------|
@@ -18,10 +18,11 @@ Deploy Elasticsearch, Fluentd, and Kibana on OpenShift 4.14/4.15.
 | `manifests/logging/clusterlogging.template.yml` | OpenShift template for ClusterLogging CR |
 | `manifests/logging/clusterlogforwarder.yml` | ClusterLogForwarder CR |
 | `manifests/logging/params/single-node.example.params` | Parameters for single-node ES |
-| `manifests/logging/params/ha.example.params` | Parameters for HA (3 nodes) |
+| `manifests/logging/params/multi-node.example.params` | Parameters for multi-node (3 nodes) |
 | `manifests/logging/params/README.md` | Parameter documentation and usage |
 | `manifests/kibana/kibana-externallink.template.yml` | Kibana link in OpenShift console |
 | `manifests/elasticsearch/index_explicit_mapping_template.sh` | Script to apply custom index template |
+| `manifests/elasticsearch/dedalus_template.json` | Custom Elasticsearch index template definition |
 
 ## Deployment
 
@@ -52,10 +53,11 @@ oc process -f manifests/logging/clusterlogging.template.yml \
   | oc apply -f -
 ```
 
-High-availability (3 ES nodes, single redundancy):
+
+Multi-node (3 ES nodes, single redundancy):
 ```bash
 oc process -f manifests/logging/clusterlogging.template.yml \
-  --param-file=manifests/logging/params/ha.example.params \
+  --param-file=manifests/logging/params/multi-node.example.params \
   | oc apply -f -
 ```
 

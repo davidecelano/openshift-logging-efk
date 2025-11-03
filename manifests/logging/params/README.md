@@ -5,12 +5,12 @@ Parameter files for deploying ClusterLogging instances with different sample con
 ## Files
 
 - `single-node.example.params` - Single-node Elasticsearch deployment
-- `ha.example.params` - High-availability Elasticsearch deployment (3 nodes)
+- `multi-node.example.params` - Multi-node (HA) Elasticsearch deployment (3 nodes)
 
 ## Parameters
 
-| Parameter | Description | Single Node | HA |
-|-----------|-------------|-------------|----|
+| Parameter | Description | Single Node | Multi-node |
+|-----------|-------------|-------------|-----------|
 | ES_NODE_COUNT | Number of Elasticsearch nodes | 1 | 3 |
 | ES_MEMORY | Memory per ES node | 4Gi | 8Gi |
 | PROXY_MEMORY | ES proxy memory | 256Mi | 256Mi |
