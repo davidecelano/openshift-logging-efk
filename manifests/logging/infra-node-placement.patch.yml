@@ -1,0 +1,29 @@
+apiVersion: logging.openshift.io/v1
+kind: ClusterLogging
+metadata:
+  name: instance
+  namespace: openshift-logging
+spec:
+  collection:
+    logs:
+      fluentd:
+        tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/infra
+          operator: Exists
+  logStore:
+    elasticsearch:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/infra
+        operator: Exists
+  visualization:
+    kibana:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/infra
+        operator: Exists

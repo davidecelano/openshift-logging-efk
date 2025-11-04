@@ -10,11 +10,10 @@ metadata:
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
-  name: dedalus-operators
+  name: cluster-logging
   namespace: openshift-logging
   labels:
-    app: dedalus-logging
-    component: operator-group
+    app: cl-logging-dedalus
 spec:
   targetNamespaces:
   - openshift-logging
@@ -28,8 +27,9 @@ metadata:
     app: dedalus-logging
     component: cluster-logging-operator
 spec:
-  channel: dedalus
+  channel: 'dedalus'
   installPlanApproval: Automatic
   name: cluster-logging
   source: dedalus-operators
   sourceNamespace: openshift-marketplace
+  startingCSV: clusterlogging.v5.9.0

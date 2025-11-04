@@ -17,6 +17,7 @@ Deploy Elasticsearch, Fluentd, and Kibana on OpenShift 4.14/4.15.
 | `manifests/operators/elasticsearch-operator.yml` | Subscription for Elasticsearch |
 | `manifests/logging/clusterlogging.template.yml` | OpenShift template for ClusterLogging CR |
 | `manifests/logging/clusterlogforwarder.yml` | ClusterLogForwarder CR |
+| `manifests/logging/infra-node-placement.patch.yml` | Patch to schedule logging on infra nodes |
 | `manifests/logging/params/single-node.example.params` | Parameters for single-node ES |
 | `manifests/logging/params/multi-node.example.params` | Parameters for multi-node (3 nodes) |
 | `manifests/logging/params/README.md` | Parameter documentation and usage |
@@ -46,19 +47,11 @@ oc get subscription -n openshift-logging
 
 ### 3. Deploy ClusterLogging instance
 
-Single-node (1 ES node, zero redundancy):
+Ex. Single-node (1 ES node, zero redundancy):
 ```bash
 oc process -f manifests/logging/clusterlogging.template.yml \
   --param-file=manifests/logging/params/single-node.example.params \
-  | oc apply -f -
-```
-
-
-Multi-node (3 ES nodes, single redundancy):
-```bash
-oc process -f manifests/logging/clusterlogging.template.yml \
-  --param-file=manifests/logging/params/multi-node.example.params \
-  | oc apply -f -
+  | oc apply -n openshift-logging -f -
 ```
 
 ### 4. Deploy ClusterLogForwarder
@@ -70,7 +63,7 @@ oc apply -f manifests/logging/clusterlogforwarder.yml
 ```bash
 oc process -f manifests/kibana/kibana-externallink.template.yml \
   -p KIBANA_ROUTE=$(oc get route kibana -n openshift-logging -o jsonpath='{.spec.host}') \
-  | oc apply -f -
+  | oc apply -n openshift-logging -f -
 ```
 
 ### 6. Apply custom Elasticsearch index template
@@ -78,6 +71,13 @@ oc process -f manifests/kibana/kibana-externallink.template.yml \
 . manifests/elasticsearch/index_explicit_mapping_template.sh
 ```
 Expected output: `{"acknowledged":true}`
+
+### 7. (Optional) Configure infra node placement
+Schedule Elasticsearch and Kibana on infrastructure nodes:
+```bash
+oc patch ClusterLogging instance -n openshift-logging --type=merge --patch-file=manifests/logging/infra-node-placement.patch.yml
+```
+See `manifests/logging/README.md` for prerequisites.
 
 ## Elasticsearch Commands
 
@@ -116,6 +116,11 @@ oc get subscription -n openshift-logging
 Check ClusterLogging status:
 ```bash
 oc get ClusterLogging instance -n openshift-logging -o yaml
+```
+
+Check all logging components by label:
+```bash
+oc get all -l app=dedalus-logging -n openshift-logging
 ```
 
 ## Uninstall
