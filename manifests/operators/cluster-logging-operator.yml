@@ -13,7 +13,8 @@ metadata:
   name: cluster-logging
   namespace: openshift-logging
   labels:
-    app: cl-logging-dedalus
+    app: dedalus-logging
+    component: cluster-logging-operator
 spec:
   targetNamespaces:
   - openshift-logging

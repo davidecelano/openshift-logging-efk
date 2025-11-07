@@ -33,7 +33,7 @@ oc apply -f manifests/operators/elasticsearch-operator.yml
 ```
 Check:
 ```bash
-oc get subscription -n openshift-logging
+oc get subscription -n openshift-operators-redhat
 ```
 
 ### 2. Install Cluster Logging operator

@@ -84,7 +84,7 @@ parameters:
 - name: STORAGECLASS
   displayName: Storage Class
   description: Storage Class available on the cluster
-  required: false
+  required: true
   value: ""
 - name: KIBANA_REPLICAS
   displayName: Kibana Replicas

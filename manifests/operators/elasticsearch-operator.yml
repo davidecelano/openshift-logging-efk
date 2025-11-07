@@ -12,7 +12,9 @@ kind: OperatorGroup
 metadata:
   name: openshift-operators-redhat
   namespace: openshift-operators-redhat
-spec: {}
+  labels:
+    app: dedalus-logging
+    component: elasticsearch-operator
 ---
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
