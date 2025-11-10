@@ -36,7 +36,7 @@ Parameter files for deploying ClusterLogging instances with different sample con
 Use with `oc process`:
 
 ```bash
-oc process -f ../clusterlogging.template.yml \
+oc process -f ../clusterlogging.template.yaml \
   --param-file=single-node.example.params \
   | oc apply -f -
 ```

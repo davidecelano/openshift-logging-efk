@@ -4,14 +4,14 @@ ClusterLogging instance template and forwarder configuration.
 
 ## Files
 
-- `clusterlogging.template.yml` - OpenShift template for ClusterLogging CR
-- `clusterlogforwarder.yml` - ClusterLogForwarder CR for log routing
-- `infra-node-placement.patch.yml` - Patch to schedule logging components on infra nodes
+- `clusterlogging.template.yaml` - OpenShift template for ClusterLogging CR
+- `clusterlogforwarder.yaml` - ClusterLogForwarder CR for log routing
+- `infra-node-placement.patch.yaml` - Patch to schedule logging components on infra nodes
 - `params/` - Parameter files for different deployment profiles
 
 ## Infra Node Placement
 
-The `infra-node-placement.patch.yml` file configures the ClusterLogging instance to:
+The `infra-node-placement.patch.yaml` file configures the ClusterLogging instance to:
 - Schedule Elasticsearch and Kibana pods on infrastructure nodes using `nodeSelector`
 - Allow Fluentd collectors to run on all nodes (including master and infra) via tolerations
 
@@ -20,7 +20,7 @@ The `infra-node-placement.patch.yml` file configures the ClusterLogging instance
 After deploying the ClusterLogging instance, apply the patch:
 
 ```bash
-oc patch ClusterLogging instance -n openshift-logging --type=merge --patch-file=infra-node-placement.patch.yml
+oc patch ClusterLogging instance -n openshift-logging --type=merge --patch-file=infra-node-placement.patch.yaml
 ```
 
 ### Prerequisites
