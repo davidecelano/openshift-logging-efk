@@ -3,6 +3,7 @@
 RedHat has announced the deprecation of the logging stack based on Elasticsearch, Fluentd, and Kibana on OpenShift using their operators
  - RedHat Cluster Logging Operator
  - RedHat ElasticSearch Operator
+
 so this project allows to keep deploying the stack (wherever needed) using forked versions of those operators and a custom operator catalog.
 
 ## Prerequisites
