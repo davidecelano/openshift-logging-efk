@@ -142,4 +142,3 @@ oc get pvc -n openshift-logging
 oc delete pvc <pvc-name> -n openshift-logging
 ```
 Repeat for all Elasticsearch-related PVCs as needed. This ensures no orphaned storage remains after uninstall.
-```
